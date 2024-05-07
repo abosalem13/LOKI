@@ -9,12 +9,17 @@
     <h1>Welcome to Our Website!</h1>
     <p>We hope you enjoy your visit.</p>
 
+    <div id="locationInfo">
+        <h2>User Location (Latitude and Longitude):</h2>
+        <p><strong>Latitude:</strong> <span id="latitude"></span></p>
+        <p><strong>Longitude:</strong> <span id="longitude"></span></p>
+    </div>
+
     <script>
-        // Function to log location information to the console
-        function logLocation(position) {
-            console.log("User Location:");
-            console.log("Latitude:", position.coords.latitude);
-            console.log("Longitude:", position.coords.longitude);
+        // Function to display location information on the webpage
+        function displayLocation(latitude, longitude) {
+            document.getElementById('latitude').innerText = latitude;
+            document.getElementById('longitude').innerText = longitude;
         }
 
         // Function to handle errors when getting the location
@@ -26,7 +31,12 @@
         function getUserLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
-                    logLocation, 
+                    position => {
+                        var latitude = position.coords.latitude;
+                        var longitude = position.coords.longitude;
+                        // Display location information on the webpage
+                        displayLocation(latitude, longitude);
+                    },
                     handleLocationError
                 );
             } else {
