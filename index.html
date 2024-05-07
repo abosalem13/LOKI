@@ -11,22 +11,27 @@
 
     <script>
         // Function to log location information to the console
-        function logLocation(location) {
+        function logLocation(position) {
             console.log("User Location:");
-            console.log("IP Address:", location.ip);
-            console.log("Country:", location.country_name);
-            console.log("Region:", location.region_name);
-            console.log("City:", location.city);
+            console.log("Latitude:", position.coords.latitude);
+            console.log("Longitude:", position.coords.longitude);
         }
 
-        // Function to get user's IP address and location
+        // Function to handle errors when getting the location
+        function handleLocationError(error) {
+            console.error("Error getting user location:", error.message);
+        }
+
+        // Function to get user's precise location
         function getUserLocation() {
-            fetch('https://ipapi.co/json/')
-                .then(response => response.json())
-                .then(location => {
-                    // Log location information to the console
-                    logLocation(location);
-                });
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    logLocation, 
+                    handleLocationError
+                );
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
         }
 
         // Call getUserLocation function when the page loads
